@@ -12,13 +12,10 @@ public function reserver($n,$p,$a,$t,$e,$pass){
       $idvol=$_GET["idvol"];
       $client=new client();
       $lastId=$client->insertClient($n,$p,$a,$t,$e,$pass);
+      $vol=new vol();
+      $nombreplace=$vol->nombrePlace();
+      $vol->updatenbPlace($nombreplace);
 
-      $query="select nombreplace from vol where idvol='$idvol'";
-      $result=$conn->query($query);
-      $data=$result->fetchAll();
-      $nombreplace=$data[0]['nombreplace'];
-      $query4="update vol set nombreplace=$nombreplace-1 where idvol='$idvol'";
-      $conn->exec($query4);
 if(!empty($_SESSION["user"])){
       $querySession="select idUser from compte where  email='".$_SESSION['user']."'";
       $result=$conn->query($querySession);

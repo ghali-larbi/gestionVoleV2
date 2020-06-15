@@ -12,11 +12,12 @@ class vol extends connexion{
 public function recherche($lieuD,$destination){
     $query="select * from vol where lieuDepart='".$lieuD."' and destination='".$destination."' and nombreplace>0 and statut='active'";
     $result=$this->getConnect()->query($query);
-  $row=array();
-    while($data=$result->fetch()){
-      $row[]=$data;
-}
-return $row;
+    $data=$result->fetchAll();
+  // $row=array();
+  //   while($data=$result->fetch()){
+  //     $row[]=$data;
+// }
+return $data;
 }
 public function sessionUser(){
   $query="select nom from compte where email='".$_SESSION['user']."'";
@@ -49,6 +50,18 @@ public function annulerVole(){
   $query="update vol set statut='annuler' where idVol=$id";
   $this->getConnect()->exec($query);
 header('location:ajouterVole.php');
+}
+public function nombreplace(){
+  $idvol=$_GET["idvol"];
+  $query="select nombreplace from vol where idvol='$idvol'";
+      $result=$this->getConnect()->query($query);
+      $data=$result->fetchAll();
+    return $nombreplace=$data[0]['nombreplace'];
+}
+public function updatenbPlace($nombreplace){
+  $idvol=$_GET["idvol"];
+  $query4="update vol set nombreplace=$nombreplace-1 where idvol='$idvol'";
+  $this->getConnect()->exec($query4);
 }
 }
 ?>
